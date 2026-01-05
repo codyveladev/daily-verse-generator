@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from config import Config
 from models.users import db, User
 from routes import auth_bp, user_bp
+from models import db, User
 
 def create_app():
     app = Flask(__name__)

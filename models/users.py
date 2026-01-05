@@ -1,8 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy
+# models/users.py
 from flask_login import UserMixin
 from datetime import date
-
-db = SQLAlchemy()
+from . import db
+from .user_moods import UserMood  # Safe import – no circular issue anymore
 
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
@@ -13,22 +13,21 @@ class User(UserMixin, db.Model):
     full_name = db.Column(db.String(150), nullable=True)
     password = db.Column(db.String(150), nullable=False)
 
-    # Relationships
+    # String-based relationships (safe)
     moods = db.relationship('UserMood', backref='user', lazy=True, order_by='UserMood.date.desc()')
     quotes = db.relationship('DailyQuote', backref='user', lazy=True)
 
     def __repr__(self):
         return f'<User {self.username}>'
 
-    # def get_current_mood(self):
-    #     """
-    #     Returns the user's mood for today, or the most recent mood if none today.
-    #     """
-    #     today = date.today()
-    #     today_mood = UserMood.query.filter_by(user_id=self.id, date=today).first()
-    #     if today_mood:
-    #         return today_mood.mood
+    def get_current_mood(self):
+        today = date.today()
+        today_mood = UserMood.query.filter_by(user_id=self.id, date=today).first()
+        if today_mood:
+            return today_mood.mood
 
-        # Fall back to the most recent mood
+        # Fall back to most recent mood
         if self.moods:
-            return
+            return self.moods[0].mood
+
+        return None

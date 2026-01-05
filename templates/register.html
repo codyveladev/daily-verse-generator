@@ -1,28 +1,67 @@
+<!-- templates/register.html -->
 {% extends "base.html" %}
 
-{% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-5">
-        <h2 class="text-center mb-4">Create an Account</h2>
-        <form method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required autofocus>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="mb-3">
-                <label for="confirm" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirm" name="confirm" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Register</button>
-        </form>
+{% block title %}Register{% endblock %}
 
-        <p class="text-center mt-4">
-            Already have an account? <a href="{{ url_for('auth.login') }}">Sign in here</a>
-        </p>
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4">Create Your Account</h2>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('auth.register') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                   value="{{ request.form.username }}" required autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   value="{{ request.form.email }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="full_name" class="form-label">Full Name (optional)</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name"
+                                   value="{{ request.form.full_name }}">
+                            <small class="text-muted">This will be used for personalization.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="confirm" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                            <input type="password" class="form-control" id="confirm" name="confirm" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+
+                    <p class="text-center mt-4 text-muted">
+                        Already have an account?
+                        <a href="{{ url_for('auth.login') }}">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
