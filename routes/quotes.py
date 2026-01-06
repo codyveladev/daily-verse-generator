@@ -30,6 +30,8 @@ Example: Psalm 34:18"""
             model="gemini-2.5-flash", contents=prompt
         )
 
+        print(response, response.text)
+
         # 2. Access the text attribute directly
         reference = response.text.strip()
 

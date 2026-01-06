@@ -24,7 +24,6 @@
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('user.dashboard') }}">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('user.set_mood') }}">Set Mood</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('user.profile') }}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout ({{ current_user.username }})</a></li>
                     {% else %}
