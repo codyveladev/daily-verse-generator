@@ -1,6 +1,6 @@
 # routes/user.py
 from datetime import date
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
 from models.users import User, db
 from models.user_moods import UserMood
@@ -8,6 +8,7 @@ from . import user_bp
 
 from models.daily_quotes import DailyQuote
 from models.users import db
+from models.soap_journal import SOAPJournal
 
 @user_bp.route('/')
 def index():
@@ -45,6 +46,7 @@ def profile():
     if request.method == 'POST':
         current_user.full_name = request.form['full_name']
         current_user.email = request.form['email']
+        current_user.preferred_translation = request.form['preferred_translation']
 
         if User.query.filter(User.email == current_user.email, User.id != current_user.id).first():
             flash('Email already in use by another account.', 'danger')
@@ -99,3 +101,39 @@ def clear_quotes():
         flash('Error clearing quotes. Try again.', 'danger')
 
     return redirect(url_for('user.dashboard'))
+
+@user_bp.route('/journal/<int:quote_id>', methods=['GET', 'POST'])
+@login_required
+def soap_journal(quote_id):
+    quote = DailyQuote.query.get_or_404(quote_id)
+
+    # Security: only allow editing own quotes
+    if quote.user_id != current_user.id:
+        abort(403)
+
+    journal = quote.soap_journal or SOAPJournal(quote_id=quote.id)
+
+    if request.method == 'POST':
+        journal.observation = request.form['observation']
+        journal.application = request.form['application']
+        journal.prayer = request.form['prayer']
+
+        if not quote.soap_journal:
+            db.session.add(journal)
+
+        db.session.commit()
+        flash('Your SOAP journal entry has been saved!', 'success')
+        return redirect(url_for('user.soap_journal', quote_id=quote_id))
+
+    return render_template('soap_journal.html', quote=quote, journal=journal)
+
+@user_bp.route('/journal')
+@login_required
+def journal_history():
+    # Get all quotes that have a journal entry, ordered newest first
+    journal_quotes = DailyQuote.query.filter(
+        DailyQuote.user_id == current_user.id,
+        DailyQuote.soap_journal != None
+    ).order_by(DailyQuote.date.desc()).all()
+
+    return render_template('journal_history.html', journal_quotes=journal_quotes)

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}My Journal{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">My SOAP Journal Entries</h1>
+
+    {% if journal_quotes %}
+        <div class="row g-4">
+            {% for quote in journal_quotes %}
+                <div class="col-lg-8">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-light">
+                            <small class="text-muted">
+                                {{ quote.date.strftime('%B %d, %Y') }} • {{ quote.topic.capitalize() }}
+                            </small>
+                            <h5 class="mb-0 mt-1">{{ quote.reference }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <blockquote class="blockquote fst-italic text-muted border-start border-primary border-4 ps-4 mb-4">
+                                <p class="mb-0">{{ quote.text }}</p>
+                            </blockquote>
+
+                            {% if quote.soap_journal %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong>O – Observation</strong>
+                                        <p class="mt-2 text-muted">{{ quote.soap_journal.observation or "Not written yet" }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong>A – Application</strong>
+                                        <p class="mt-2 text-muted">{{ quote.soap_journal.application or "Not written yet" }}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <strong>P – Prayer</strong>
+                                    <p class="mt-2 text-muted">{{ quote.soap_journal.prayer or "Not written yet" }}</p>
+                                </div>
+                            {% endif %}
+
+                            <div class="text-end mt-4">
+                                <a href="{{ url_for('user.soap_journal', quote_id=quote.id) }}" class="btn btn-outline-primary btn-sm">
+                                    Edit Journal Entry
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card shadow">
+            <div class="card-body text-center py-5">
+                <h4>No journal entries yet</h4>
+                <p class="text-muted">Start reflecting on your daily verses by opening a SOAP journal from your dashboard.</p>
+                <a href="{{ url_for('user.dashboard') }}" class="btn btn-primary mt-3">Go to Dashboard</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

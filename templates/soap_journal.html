@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}SOAP Journal – {{ quote.reference }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">SOAP Journal</h3>
+                    <small>{{ quote.date.strftime('%B %d, %Y') }} • {{ quote.topic.capitalize() }}</small>
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote fs-5 fst-italic border-start border-primary border-4 ps-4 py-3 mb-5">
+                        <p class="mb-0">{{ quote.text }}</p>
+                        <footer class="blockquote-footer text-end mt-3">{{ quote.reference }}</footer>
+                    </blockquote>
+
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-primary">S – Scripture</label>
+                            <textarea class="form-control" rows="3" readonly disabled>{{ quote.text }} — {{ quote.reference }}</textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="observation" class="form-label fw-bold text-primary">O – Observation</label>
+                            <textarea class="form-control" id="observation" name="observation" rows="5" placeholder="What is God saying in this Scripture?">{{ journal.observation or '' }}</textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="application" class="form-label fw-bold text-primary">A – Application</label>
+                            <textarea class="form-control" id="application" name="application" rows="5" placeholder="How does this apply to your life right now?">{{ journal.application or '' }}</textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="prayer" class="form-label fw-bold text-primary">P – Prayer</label>
+                            <textarea class="form-control" id="prayer" name="prayer" rows="5" placeholder="Pray about what God has shown you...">{{ journal.prayer or '' }}</textarea>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">Save Journal Entry</button>
+                            <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-secondary btn-lg ms-3">Back to Dashboard</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
