@@ -6,6 +6,9 @@ from models.users import User, db
 from models.user_moods import UserMood
 from . import user_bp
 
+from models.daily_quotes import DailyQuote
+from models.users import db
+
 @user_bp.route('/')
 def index():
     return render_template('index.html')
@@ -78,3 +81,21 @@ def set_mood():
         return redirect(url_for('user.dashboard'))
 
     return render_template('set_mood.html', moods=moods, current_mood=current_mood)
+
+@user_bp.route('/clear_quotes')
+@login_required
+def clear_quotes():
+    # Optional: Add extra protection, e.g., only allow specific users
+    # if current_user.username != 'admin':  # Example
+    #     flash('Access denied.', 'danger')
+    #     return redirect(url_for('user.dashboard'))
+
+    try:
+        num_deleted = db.session.query(DailyQuote).delete()
+        db.session.commit()
+        flash(f'Cleared {num_deleted} daily quotes from the database.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error clearing quotes. Try again.', 'danger')
+
+    return redirect(url_for('user.dashboard'))

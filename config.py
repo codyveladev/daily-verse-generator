@@ -18,3 +18,5 @@ class Config:
 
     # Grok API key (from xAI) – used for intelligent verse selection
     GROK_API_KEY = os.environ.get('GROK_API_KEY')
+
+    GEMINI_API_KEY = os.environ.get('AIzaSyB_a3egFvUImoYTu-0sdGbVhkXyN9Xtix0')
