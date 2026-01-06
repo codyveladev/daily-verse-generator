@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask_login import LoginManager
 from config import Config
 from models.users import db, User
-from routes import auth_bp, user_bp
+from routes import auth_bp, user_bp, community_bp
 from models import db, User
 
 def create_app():
@@ -29,6 +29,7 @@ def create_app():
     # Register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(community_bp, url_prefix="/community")
 
     # Create tables
     with app.app_context():

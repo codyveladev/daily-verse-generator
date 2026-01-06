@@ -9,3 +9,5 @@ db = SQLAlchemy()
 from .users import User
 from .user_moods import UserMood
 from .daily_quotes import DailyQuote
+from .posts import Post, PostVote
+from .comments import Comment, CommentVote
