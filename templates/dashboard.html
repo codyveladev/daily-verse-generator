@@ -1,6 +1,59 @@
 {% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h1>Welcome, {{ current_user.username }}!</h1>
-<p>This is a protected route. Only logged-in users can see this.</p>
+<h1 class="mb-4">Hello, {{ current_user.full_name or current_user.username }}!</h1>
+
+<div class="row">
+    <div class="col-lg-8">
+        {% if current_mood %}
+            <div class="card mb-2 shadow">
+                <div class="card-body">
+                    <h4>Your Current Struggle</h4>
+                    <p class="lead">{{ current_mood.capitalize() }} <a href="{{ url_for('user.set_mood') }}" class="ms-3 btn btn-sm btn-outline-primary">Change</a></p>
+                </div>
+            </div>
+
+            {% if today_quote %}
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4>Your Daily Verse</h4>
+                        <blockquote class="blockquote quote-block mb-0">
+                            <p>{{ today_quote.text }}</p>
+                            <footer class="blockquote-footer text-end mt-3">
+                                — {{ today_quote.reference }}
+                            </footer>
+                        </blockquote>
+                        <small class="text-muted d-block mt-3">For when you're feeling {{ today_quote.topic }}</small>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <strong>Your verse is being prepared...</strong> It will appear here shortly after setting your mood.
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="card shadow">
+                <div class="card-body text-center py-5">
+                    <h3>Ready for your daily encouragement?</h3>
+                    <p class="lead">Tell us what you're going through today to receive a personalized Bible verse.</p>
+                    <a href="{{ url_for('user.set_mood') }}" class="btn btn-lg btn-primary">Set My Mood</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{{ url_for('user.set_mood') }}" class="text-decoration-none">✨ Set or Change Mood</a></li>
+                    <li class="mb-2"><a href="{{ url_for('user.profile') }}" class="text-decoration-none">⚙️ Edit Profile</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}" class="text-decoration-none">🚪 Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

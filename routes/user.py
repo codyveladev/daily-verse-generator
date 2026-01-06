@@ -8,7 +8,7 @@ from . import user_bp
 
 @user_bp.route('/')
 def index():
-    return render_template('base.html')
+    return render_template('index.html')
 
 @user_bp.route('/dashboard')
 @login_required

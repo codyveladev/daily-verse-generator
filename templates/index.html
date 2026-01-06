@@ -1,0 +1,168 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+{% block title %}Daily Verse - Your Daily Bible Encouragement{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="text-black py-5" style="min-height: 100vh; display: flex; align-items: center;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4 text-black">
+                    Find Strength in Scripture,<br>
+                    <span class="text-secondary">Every Single Day</span>
+                </h1>
+                <p class="lead mb-5 opacity-90">
+                    Daily Verse delivers a personalized Bible verse straight to your dashboard — 
+                    chosen just for what you're going through: grief, anxiety, doubt, joy, or hope.
+                </p>
+
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('user.dashboard') }}" class="btn btn-dark btn-lg px-5 py-3 fw-semibold">
+                            Go to My Dashboard
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-dark btn-lg px-5 py-3 fw-semibold">
+                            Get Started Free
+                        </a>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-dark btn-lg px-5 py-3 fw-semibold">
+                            Sign In
+                        </a>
+                    {% endif %}
+                </div>
+
+                <p class="mt-4 text-dark opacity-75 small">
+                    No credit card required • Unlimited daily verses
+                </p>
+            </div>
+
+            <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                <div class="bg-white rounded-4 shadow-lg overflow-hidden border" style="max-width: 500px; margin: 0 auto;">
+                    <img src="https://thumbs.dreamstime.com/b/bible-reading-book-hands-family-prayer-support-hope-christianity-home-worship-together-mother-father-grandparents-272059610.jpg" 
+                         alt="Family finding peace in Scripture" 
+                         class="img-fluid w-100">
+                    <div class="p-4 text-dark">
+                        <blockquote class="blockquote mb-0 fs-5 fst-italic">
+                            “The Lord is close to the brokenhearted and saves those who are crushed in spirit.”
+                        </blockquote>
+                        <footer class="blockquote-footer mt-2 text-end">Psalm 34:18</footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-6 fw-bold">Built for Your Real Life</h2>
+                <p class="lead text-muted">A simple, thoughtful way to stay connected to God's word — no noise, no ads.</p>
+            </div>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold">Personalized Daily</h4>
+                    <p class="text-muted">Tell us how you're feeling — get a verse that speaks directly to your heart.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V1h-.5a.5.5 0 0 1-.5-.5z"/>
+                            <path d="M2.5 2A1.5 1.5 0 0 0 1 3.5v9A1.5 1.5 0 0 0 2.5 14h11a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 13.5 2h-11zM2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V5H2V3.5zm.5 1.5h11v8.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V5z"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold">Clean & Simple</h4>
+                    <p class="text-muted">No distractions. Just you, God's word, and a moment of peace.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767.376 1.566 1.146 1.566h9.626c.77 0 1.306-.799 1.146-1.566C15.134 8.197 15 6.628 15 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917z"/>
+                        </svg>
+                    </div>
+                    <h4 class="fw-semibold">Always With You</h4>
+                    <p class="text-muted">Access your verse anytime, anywhere — on phone, tablet, or desktop.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-6 fw-bold">What People Are Saying</h2>
+                <p class="lead text-muted">Real encouragement from real people.</p>
+            </div>
+        </div>
+
+        <div class="row g-5 justify-content-center">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img src="https://www.shutterstock.com/image-photo/christian-woman-holds-bible-her-260nw-2434192387.jpg" 
+                         alt="Sarah" class="rounded-circle mb-3 shadow" style="width: 100px; height: 100px; object-fit: cover;">
+                    <blockquote class="fst-italic text-muted">
+                        “On days when anxiety feels overwhelming, Daily Verse gives me exactly the verse I need. It's like God speaking directly to me.”
+                    </blockquote>
+                    <p class="fw-semibold mt-3">— Sarah, mom of three</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img src="https://media.istockphoto.com/id/172270395/photo/praying-4.jpg?s=612x612&w=0&k=20&c=DiSKJFV5qcc07YW4XoA5DVDRClE1-4wzqN21CzFJxDg=" 
+                         alt="Michael" class="rounded-circle mb-3 shadow" style="width: 100px; height: 100px; object-fit: cover;">
+                    <blockquote class="fst-italic text-muted">
+                        “I start every morning with my personalized verse now. It's become the best part of my routine.”
+                    </blockquote>
+                    <p class="fw-semibold mt-3">— Michael, software engineer</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/bible-verses-joy-1571321314.jpg?crop=1xw:0.84375xh;0,0.0288xh" 
+                         alt="Emma" class="rounded-circle mb-3 shadow" style="width: 100px; height: 100px; object-fit: cover;">
+                    <blockquote class="fst-italic text-muted">
+                        “After losing my dad, the verses for grief brought me comfort I didn’t think was possible. Thank you.”
+                    </blockquote>
+                    <p class="fw-semibold mt-3">— Emma, college student</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center py-5">
+        <h2 class="display-5 fw-bold mb-4">Start Your Day with Hope</h2>
+        <p class="lead mb-5">Join thousands finding daily encouragement through Scripture.</p>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('user.dashboard') }}" class="btn btn-light btn-lg px-5">Go to Dashboard</a>
+        {% else %}
+            <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg px-5">Get Started — It's Free</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

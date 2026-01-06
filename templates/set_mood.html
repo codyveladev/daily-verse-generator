@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Set Mood{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body p-5">
+                <h2 class="text-center mb-4">How are you feeling today?</h2>
+                <p class="text-center text-muted mb-5">Choose what you're going through to receive a comforting Bible verse.</p>
+
+                <form method="POST" action="{{ url_for('user.set_mood') }}">
+                    <div class="mb-4">
+                        <select class="form-select form-select-lg" name="mood" required>
+                            <option value="" disabled {% if not current_mood %}selected{% endif %}>-- Select your current struggle --</option>
+                            {% for mood in moods %}
+                                <option value="{{ mood }}" {% if mood == current_mood %}selected{% endif %}>
+                                    {{ mood.capitalize() }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Get My Verse</button>
+                </form>
+
+                {% if current_mood %}
+                    <div class="text-center mt-4">
+                        <small class="text-muted">
+                            Current: <strong>{{ current_mood.capitalize() }}</strong> • 
+                            <a href="{{ url_for('user.dashboard') }}">Back to Dashboard</a>
+                        </small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
