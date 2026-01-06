@@ -107,9 +107,9 @@ def clear_quotes():
 def soap_journal(quote_id):
     quote = DailyQuote.query.get_or_404(quote_id)
 
-    # Security: only allow editing own quotes
-    if quote.user_id != current_user.id:
-        abort(403)
+    if not quote or quote.user_id != current_user.id:
+        flash('Journal entry not found or access denied.', 'warning')
+        return redirect(url_for('user.dashboard'))
 
     journal = quote.soap_journal or SOAPJournal(quote_id=quote.id)
 
